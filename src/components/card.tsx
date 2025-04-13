@@ -1,4 +1,5 @@
 import { useState } from "react";
+import cardImages from "../assets/cardImages"; // 画像をインポート
 
 type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 type Level = 20 | 10 | 5 | 1;
@@ -147,6 +148,13 @@ const CardItem = ({
     onSelect(card);
   };
 
+  const cardImage = cardImages.find((image) => image.id === card.id);
+  if (!cardImage) {
+    console.error(`Image not found for card: ${card.id}`);
+    console.error(cardImages);
+    return null; // 画像が見つからない場合は何も表示しない
+  }
+
   return (
     <div
       className="card-item"
@@ -161,11 +169,23 @@ const CardItem = ({
         cursor: "pointer",
       }}
     >
-      <h2>{card.name}</h2>
+      <img
+        src={cardImage.data}
+        alt={`${card.name} image`}
+        style={{
+          width: "100%",
+          height: "auto",
+          objectFit: "cover",
+          borderRadius: "8px",
+          marginBottom: "8px",
+        }}
+      />
+      {/* <h2>{card.name}</h2> */}
+      {/* <p>{cardImage.name}</p> */}
       <p>Level: {card.level}</p>
       <p>Month: {card.month}月</p>
       <p>ID: {card.id}</p>
-      <p>State: {card.state}</p>
+      {/* <p>State: {card.state}</p> */}
       <p>isSelected: {isSelected ? "true" : "false"}</p>
     </div>
   );
