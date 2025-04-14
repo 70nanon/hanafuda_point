@@ -2,11 +2,20 @@ import { useState } from "react";
 import { Card } from "../models/card"; // 型をインポート
 import { buildCardList, calculateScore, getHandList } from "../utils/cardUtil"; // ユーティリティ関数をインポート
 import { CardList } from "../features/cardList"; // カードリストコンポーネントをインポート
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+} from "@mui/material"; // MUI のコンポーネントをインポート
+import MenuIcon from "@mui/icons-material/Menu"; // MUI のアイコンをインポート
 import "../css/card.css"; // スタイルをインポート
 
 export const CardComponent = () => {
   // カードリストの状態を管理
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // ドロワーの開閉状態を管理
 
   const handleCardSelect = (card: Card) => {
     setSelectedCards((prev) => {
@@ -30,41 +39,78 @@ export const CardComponent = () => {
     ];
   */
   const cardList = buildCardList(); // 月ごとのカードリストを初期化
+  const handList = getHandList(selectedCards); // 選択されたカードから手役を取得
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center" }}>合計点</h2>
-      <h3 style={{ textAlign: "center" }}>
-        {calculateScore(selectedCards)}点
-        {calculateScore(selectedCards) >= 7 && (
-          <span style={{ fontSize: "0.7em", color: "red" }}>
-            (7点以上の場合は点数2倍)
-          </span>
-        )}
-      </h3>
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
-        <h2>成立した役:</h2>
-        <p>
-          {getHandList(selectedCards).map((hand) => (
-            <span key={hand.name} style={{ marginRight: "8px" }}>
-              {hand.name}({hand.score}点)
+    <div style={{ display: "flex", position: "relative" }}>
+      {/* ドロワーを開閉するボタン */}
+      <IconButton
+        onClick={() => setIsDrawerOpen(true)}
+        style={{
+          position: "fixed",
+          top: "16px",
+          right: "16px",
+          zIndex: 1100,
+          backgroundColor: "#007bff",
+          color: "white",
+        }}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      {/* ドロワー */}
+      <Drawer
+        anchor="right" // ドロワーを右側に表示
+        open={isDrawerOpen} // ドロワーの開閉状態
+        onClose={() => setIsDrawerOpen(false)} // ドロワーを閉じる
+        variant="persistent" // ドロワーのバリアント
+        PaperProps={{
+          sx: { width: 300 }, // ドロワーの幅を指定
+        }}
+      >
+        <div style={{ width: 300, padding: 16 }}>
+          <h2>成立した役</h2>
+          {handList.length > 0 ? (
+            <List>
+              {handList.map((hand) => (
+                <ListItem key={hand.name}>
+                  <ListItemText
+                    primary={hand.name}
+                    secondary={`${hand.score}点`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <p>なし</p>
+          )}
+        </div>
+      </Drawer>
+
+      {/* メインコンテンツ */}
+      <div style={{ flex: 1, marginRight: isDrawerOpen ? 300 : 0 }}>
+        <h2 style={{ textAlign: "center" }}>合計点</h2>
+        <h3 style={{ textAlign: "center" }}>
+          {calculateScore(selectedCards)}点
+          {calculateScore(selectedCards) >= 7 && (
+            <span style={{ fontSize: "0.7em", color: "red" }}>
+              (7点以上の場合は点数2倍)
             </span>
-          ))}
-        </p>
-      </div>
+          )}
+        </h3>
 
-      {/* 選択されたカードのID一覧を表示 */}
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
-        <h3>選択されたカードのID:</h3>
-        <p>{selectedCards.map((card) => card.id).join(", ") || "なし"}</p>
-      </div>
+        {/* 選択されたカードのID一覧を表示 */}
+        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+          <h3>選択されたカードのID:</h3>
+          <p>{selectedCards.map((card) => card.id).join(", ") || "なし"}</p>
+        </div>
 
-      <CardList
-        cardList={cardList}
-        selectedCards={selectedCards}
-        handleCardSelect={handleCardSelect}
-      />
+        <CardList
+          cardList={cardList}
+          selectedCards={selectedCards}
+          handleCardSelect={handleCardSelect}
+        />
+      </div>
     </div>
   );
 };
-
