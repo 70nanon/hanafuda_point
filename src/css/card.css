@@ -1,0 +1,35 @@
+.card-item {
+  width: 20vw;
+  max-width: 120px;
+  min-width: 80px;
+}
+
+@media (max-width: 768px) {
+  .card-item {
+    width: 30vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-item {
+    width: 40vw; /* スマホサイズではカードをさらに大きく */
+  }
+}
+
+.card-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr); /* デフォルトは一行に2ヶ月分 */
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(1, 1fr); /* タブレットやスマホでは一行に1ヶ月分 */
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: repeat(1, 1fr); /* スマホではさらに狭いレイアウト */
+  }
+}
