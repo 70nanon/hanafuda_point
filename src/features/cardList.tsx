@@ -32,7 +32,7 @@ export const CardList = ({
                 style={{
                   display: "grid",
                   gap: "10px",
-                  gridTemplateColumns: "repeat(4, minmax(80px, 1fr))", // スマホ用の狭いレイアウト
+                  gridTemplateColumns: "repeat(4, minmax(50px, 1fr))", // スマホ用の狭いレイアウト
                 }}
               >
                 {cards.map((card, index) => (

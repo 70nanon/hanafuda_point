@@ -15,7 +15,7 @@ import "../css/card.css"; // スタイルをインポート
 export const CardComponent = () => {
   // カードリストの状態を管理
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // ドロワーの開閉状態を管理
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true); // ドロワーの開閉状態を管理
 
   const handleCardSelect = (card: Card) => {
     setSelectedCards((prev) => {
@@ -61,7 +61,7 @@ export const CardComponent = () => {
       {/* ドロワー */}
       <Drawer
         anchor="right" // ドロワーを右側に表示
-        open={isDrawerOpen} // ドロワーの開閉状態
+        open={true} // ドロワーの開閉状態
         onClose={() => setIsDrawerOpen(false)} // ドロワーを閉じる
         variant="persistent" // ドロワーのバリアント
         PaperProps={{
@@ -97,7 +97,7 @@ export const CardComponent = () => {
       </Drawer>
 
       {/* メインコンテンツ */}
-      <div style={{ flex: 1, marginRight: isDrawerOpen ? 300 : 0 }}>
+      <div style={{ flex: 1, marginRight: isDrawerOpen ? 300 : 0, width: "100%" }}>
         {/* 選択されたカードのID一覧を表示 */}
         <div style={{ textAlign: "center", marginBottom: "16px" }}>
           <h3>選択されたカードのID:</h3>

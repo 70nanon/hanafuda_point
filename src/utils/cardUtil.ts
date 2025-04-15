@@ -3,7 +3,7 @@ import { Card, HandList, Month, Level } from "../models/card";
 // カードリストを構築する関数
 export const buildCardList = (): { month: Month; cards: Card[] }[] => {
   // Monthごとに存在しうるLevelを定義
-  type MonthLevelMap = Record<Month, Level[]>;
+  type MonthLevelMap = { [key in Month]: Level[] };
   const monthLevelMap: MonthLevelMap = {
     1: [20, 5, 1, 1],
     2: [10, 5, 1, 1],
@@ -39,8 +39,7 @@ export const buildCardList = (): { month: Month; cards: Card[] }[] => {
   return months
     .map((number) => {
       const month = number as Month;
-      // monthLevelMapからlevelを取得
-      const levels = monthLevelMap[month];
+      const levels = monthLevelMap[month]; // monthLevelMapからlevelを取得
       const cards = levels.map((level, i) => {
         const card = new Card(
           monthIdMap[month][i],

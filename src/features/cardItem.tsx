@@ -34,7 +34,7 @@ export const CardItem = ({
         textAlign: "center",
         width: "100%", // 幅を親要素に依存
         maxWidth: "120px",
-        minWidth: "80px",
+        minWidth: "50px",
         backgroundColor: isSelected ? "#26C6DA" : "white",
         cursor: "pointer",
       }}
