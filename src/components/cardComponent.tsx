@@ -69,6 +69,15 @@ export const CardComponent = () => {
         }}
       >
         <div style={{ width: 300, padding: 16 }}>
+          <h2 style={{ textAlign: "center" }}>合計点</h2>
+          <h3 style={{ textAlign: "center", marginBottom: "5px" }}>
+            {calculateScore(selectedCards)}点
+          </h3>
+          {calculateScore(selectedCards) >= 7 && (
+            <p style={{ fontSize: "0.7em", color: "red" }}>
+              (7点以上の場合は点数2倍)
+            </p>
+          )}
           <h2>成立した役</h2>
           {handList.length > 0 ? (
             <List>
@@ -89,16 +98,6 @@ export const CardComponent = () => {
 
       {/* メインコンテンツ */}
       <div style={{ flex: 1, marginRight: isDrawerOpen ? 300 : 0 }}>
-        <h2 style={{ textAlign: "center" }}>合計点</h2>
-        <h3 style={{ textAlign: "center" }}>
-          {calculateScore(selectedCards)}点
-          {calculateScore(selectedCards) >= 7 && (
-            <span style={{ fontSize: "0.7em", color: "red" }}>
-              (7点以上の場合は点数2倍)
-            </span>
-          )}
-        </h3>
-
         {/* 選択されたカードのID一覧を表示 */}
         <div style={{ textAlign: "center", marginBottom: "16px" }}>
           <h3>選択されたカードのID:</h3>
